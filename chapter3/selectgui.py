@@ -22,6 +22,10 @@ class PSDPlotterApp:
         self.select_file_button = tk.Button(self.root, text="Select CSV File", command=self.load_file)
         self.select_file_button.pack(pady=10)
 
+        # Label to display file information
+        self.file_info_label = tk.Label(self.root, text="Selected File: ")
+        self.file_info_label.pack()
+
         # Plot Button
         self.plot_button = tk.Button(self.root, text="Plot PSD", command=self.plot_psd)
         self.plot_button.pack(pady=10)
@@ -40,6 +44,7 @@ class PSDPlotterApp:
         if file_path:
             self.file_path = file_path
             self.df = pd.read_csv(file_path)
+            self.file_info_label.config(text=f"Selected File: {file_path}")
             tk.messagebox.showinfo("File Loaded", "CSV file loaded successfully.")
 
     def plot_psd(self):

@@ -33,7 +33,7 @@ class PSDPlotterApp:
 
         # Span Selector
         self.span_selector = SpanSelector(self.ax, self.onselect, 'horizontal', useblit=True,
-                                          rectprops=dict(alpha=0.5, facecolor='red'))
+                                    rectprops=dict(alpha=0.5, facecolor='red'))
 
     def load_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
