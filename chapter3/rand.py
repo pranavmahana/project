@@ -33,7 +33,7 @@
 import numpy as np
 
 # Number of rows and columns in the CSV file
-num_rows = 100
+num_rows = 1000
 num_columns = 2
 
 # Generate random floating-point data between 0 and 1
