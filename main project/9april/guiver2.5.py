@@ -36,13 +36,13 @@ class PSDPlotter(tk.Tk):
         self.csv_path_label = ttk.Label(self.input_frame, text="")
         self.csv_path_label.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
 
-        ttk.Label(self.input_frame, text="Sampling Frequency (Hz):").grid(row=1, column=1, padx=5, pady=5)
+        ttk.Label(self.input_frame, text="Sampling Frequency (Hz):").grid(row=2, column=0, padx=5, pady=5)
         self.fs_input = ttk.Entry(self.input_frame)
-        self.fs_input.grid(row=1, column=2, padx=5, pady=5)
+        self.fs_input.grid(row=2, column=2, padx=5, pady=5)
 
-        ttk.Label(self.input_frame, text="Sensitivity:").grid(row=2, column=1, padx=5, pady=5)
+        ttk.Label(self.input_frame, text="Sensitivity:").grid(row=3, column=0, padx=5, pady=5)
         self.sensitivity_input = ttk.Entry(self.input_frame)
-        self.sensitivity_input.grid(row=2, column=2, padx=5, pady=5)
+        self.sensitivity_input.grid(row=3, column=2, padx=5, pady=5)
 
         self.input_frame.grid(row=0, column=0, padx=10, pady=10)
 
@@ -68,15 +68,15 @@ class PSDPlotter(tk.Tk):
             # Calculate PSD
             for i in range(3):
                 f, Pxx = welch(self.data[:, i], fs=fs)
-                g_level = np.sqrt(np.trapz(Pxx, f)) / sensitivity
+                # g_level = np.sqrt(np.trapz(Pxx, f)) / sensitivity
                 axes[i+1].semilogy(f, Pxx / sensitivity**2, label='PSD')
-                axes[i+1].axhline(y=g_level, color='r', linestyle='--', label='G-Level')
+                # axes[i+1].axhline(y=g_level, color='r', linestyle='--', label='G-Level')
                 axes[i+1].set_title(f'PSD - Direction {["X", "Y", "Z"][i]}')
                 axes[i+1].set_xlabel('Frequency (Hz)')
                 axes[i+1].set_ylabel('PSD')
                 axes[i+1].legend()
 
-            fig.tight_layout()
+            fig.tight_layout(pad=5)
 
             canvas = FigureCanvasTkAgg(fig, master=self.plot_tab)
             canvas.draw()
