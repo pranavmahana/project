@@ -80,15 +80,27 @@ class GLevelPSDPlotterApp(tk.Tk):
             self.glevels_ax[0].clear()
             self.glevels_ax[1].clear()
             self.glevels_ax[2].clear()
-            self.glevels_ax[0].plot(self.time_data, self.g_level_data[:, 0], label='X')
-            self.glevels_ax[1].plot(self.time_data, self.g_level_data[:, 1], label='Y')
-            self.glevels_ax[2].plot(self.time_data, self.g_level_data[:, 2], label='Z')
+            
+            for i, axis_label in enumerate(['X', 'Y', 'Z']):
+                axis_data = self.g_level_data[:, i]
+                self.glevels_ax[i].plot(self.time_data, axis_data, label=axis_label)
+            
             for ax in self.glevels_ax:
                 ax.legend()
+            
+            # Set x-axis limits to cover the entire time range
+            min_time = min(self.time_data)
+            max_time = max(self.time_data)
+            time_range = max_time - min_time
+            padding = time_range * 0.05  # Add 5% padding
+            self.glevels_ax[0].set_xlim(min_time - padding, max_time + padding)
+            
             self.canvas_glevels.draw()
             self.tabControl.select(self.glevels_tab)
         else:
             messagebox.showwarning("Warning", "Please load CSV file first.")
+
+
     
     def plot_psd(self):
         if self.time_data is not None and self.g_level_data is not None:

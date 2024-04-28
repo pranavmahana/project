@@ -115,7 +115,7 @@ class GLevelAnalyzer:
                 sampling_freq = float(self.entry_sampling_freq.get())
                 sensitivity = float(self.entry_sensitivity.get())
                 axis_names = ['X', 'Y', 'Z']
-
+           
                 time = self.df.iloc[:, 0]
                 axis_data = self.df.iloc[:, axis_idx + 1] * sensitivity
 
