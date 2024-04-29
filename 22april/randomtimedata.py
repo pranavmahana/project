@@ -21,7 +21,7 @@ def generate_random_data(num_seconds, num_channels):
 
 if __name__ == "__main__":
     num_seconds = int(input("Enter the number of seconds of data to be generated: "))
-    num_channels = 18  # Number of channels
+    num_channels = int(input("Enter the no of channels: "))  # Number of channels
     
     random_data = generate_random_data(num_seconds, num_channels)
     random_data.to_csv('random_data.csv', index=False)

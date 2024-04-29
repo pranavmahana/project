@@ -67,24 +67,31 @@ class VibrationAnalyzer:
             num_channels = len(self.data.columns) - 1  # Exclude time column
             num_plots = min(num_channels, 24)
 
+            # Calculate number of rows and columns
+            num_rows = (num_plots - 1) // 6 + 1
+            num_cols = min(num_plots, 6)
+
             # Clear previous plots
             self.fig.clf()
 
             # Plot small images of G-levels
-            num_rows = (num_plots - 1) // 4 + 1
             for i in range(num_plots):
                 channel = self.data.columns[i + 1]  # Exclude time column
-                ax = self.fig.add_subplot(num_rows, 4, i + 1)
+                ax = self.fig.add_subplot(num_rows, num_cols, i + 1)
                 ax.plot(self.data.iloc[:, 0], self.data.iloc[:, i + 1] / self.sensitivity.get())
                 ax.set_title(channel, fontsize=8)
-                ax.set_ylim(bottom=0)  # Ensure non-negative values
-                ax.set_xlabel("Time (s)", fontsize=8)  # Label x-axis
+                
+                # Calculate y-axis limit dynamically based on the maximum value of G-levels
+                max_glevel = max(self.data.iloc[:, i + 1] / self.sensitivity.get())
+                ax.set_ylim(0, max_glevel * 1.2)  # Add 20% padding
+                
+                ax.set_xlabel("Time (s)", fontsize=10)  # Label x-axis with larger font size
                 ax.set_ylabel("G-levels", fontsize=8)  # Label y-axis
-                ax.tick_params(axis='x', rotation=45, labelsize=6)  # Rotate x-axis labels for better readability
+                ax.tick_params(axis='x', rotation=45, labelsize=8)  # Rotate x-axis labels for better readability
                 ax.tick_params(axis='both', which='major', pad=2)  # Increase padding between ticks
 
             # Adjust spacing between plot frames
-            self.fig.subplots_adjust(hspace=1, wspace=0.5)
+            self.fig.subplots_adjust(hspace=1, wspace=0.5, top=0.95)
 
             self.canvas.draw()
 
